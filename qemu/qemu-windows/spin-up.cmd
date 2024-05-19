@@ -84,6 +84,7 @@ if not exist "%QEMU_VM_DISK_A_PATH%" (
 :: -------------------
 
 set QEMU_VM_PORT_SSH=7000
+:: set QEMU_VM_PORT_SSH=%~n0
 set QEMU_VM_PORT_HTTP_A=80
 set QEMU_VM_PORT_HTTP_B=6445
 set QEMU_VM_PORT_HTTP_C=443
