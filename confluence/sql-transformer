@@ -1,0 +1,159 @@
+SELECT
+
+ FORMATWIKI(
+   "{cell:align=center|vertical-align=middle|width=250px}" 
+   + "{panel:bgColor=" + T2.'Product_Color' + "|textColor=white}" 
+   + T1.'Product'->split(" ")->0 
+   + "{panel}"
+   + "{cell}"
+ ) AS 'Product',
+ 
+ FORMATWIKI(
+   "{cell:align=center|vertical-align=middle|width=250px}" 
+   + T1.'Microservice'->split(" ")->0 + "{cell}"
+  ) AS 'Microservice',
+ 
+CASE
+  WHEN  
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+  <
+  CAST(T3.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+   OR
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+  <=
+  CAST(T3.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+   AND
+  CAST(REPLACE(T1.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT)
+  <
+  CAST(REPLACE(T3.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT)
+   OR
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+  <=
+  CAST(T3.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+   AND
+  CAST(REPLACE(T1.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT) 
+  <=
+  CAST(REPLACE(T3.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT)
+   AND
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("[^.]+$") AS INT)
+  <
+  CAST(T3.'Version'->match("[^a-z]*$")->0->match("[^.]+$") AS INT)
+  THEN 
+ FORMATWIKI(
+    "{cell:align=center|vertical-align=middle|width=250px}" 
+    + "{panel:bgColor=red|textColor=white}" 
+    +T3.'Version'->split(" ")->0
+    + "{panel}"       
+    + "{cell}"
+ )
+  WHEN  
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+  <
+  CAST(T4.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+   OR
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+  <=
+  CAST(T4.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+   AND
+  CAST(REPLACE(T1.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT)
+  <
+  CAST(REPLACE(T4.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT)
+   OR
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+  <=
+  CAST(T4.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+   AND
+  CAST(REPLACE(T1.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT) 
+  <=
+  CAST(REPLACE(T4.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT)
+   AND
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("[^.]+$") AS INT)
+  <
+  CAST(T4.'Version'->match("[^a-z]*$")->0->match("[^.]+$") AS INT)
+  THEN 
+ FORMATWIKI(
+    "{cell:align=center|vertical-align=middle|width=250px}" 
+    + "{panel:bgColor=red|textColor=white}" 
+    +T4.'Version'->split(" ")->0
+    + "{panel}"       
+    + "{cell}"
+ ) 
+  ELSE 
+ FORMATWIKI(
+  "{cell:align=center|vertical-align=middle|width=250px}" 
+  + T1.'Version'->split(" ")->0
+  + "{cell}"
+ )
+END AS 'Version',
+ 
+CASE
+   WHEN (T1.'Team' = "Team-A") THEN 
+    FORMATWIKI(
+    "{cell:align=center|vertical-align=middle|width=100px}" 
+    + "{panel:bgColor=#003333|textColor=white}" 
+    + "Team-A" 
+    + "{panel}"
+    + "{cell}"
+  )
+   
+   WHEN (T1.'Team' = "Team-B") THEN 
+    FORMATWIKI(
+    "{cell:align=center|vertical-align=middle|width=100px}" 
+    + "{panel:bgColor=#000066|textColor=white}" 
+    + "Team-B" 
+    + "{panel}"
+    + "{cell}"
+  )
+END AS 'Team',
+
+T1.'Remarks' AS 'Remarks',
+
+FORMATWIKI(
+  "{cell:align=center|vertical-align=middle|width=125px}"
+  + "[source"
+  + "|https://gitlab.com/search?search=" 
+  + T1.'Microservice'->split(" ")->0 + "&group_id=111]"
+  + "\n" 
+  + "[deploy"
+  + "|https://gitlab.com/search?search=" 
+  + T1.'Microservice'->split(" ")->0 + "&group_id=222]"
+  + "{cell}"
+) AS 'Gitlab Repository',
+
+CASE
+  WHEN  
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+  <
+  CAST(T3.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+   OR
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+  <=
+  CAST(T3.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+   AND
+  CAST(REPLACE(T1.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT)
+  <
+  CAST(REPLACE(T3.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT)
+   OR
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+  <=
+  CAST(T3.'Version'->match("[^a-z]*$")->0->match("^[^.]") AS INT)
+   AND
+  CAST(REPLACE(T1.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT) 
+  <=
+  CAST(REPLACE(T3.'Version'->match("[^a-z]*$")->0->match(".[^.]+")->0, ".", "") AS INT)
+   AND
+  CAST(T1.'Version'->match("[^a-z]*$")->0->match("[^.]+$") AS INT)
+  <
+  CAST(T3.'Version'->match("[^a-z]*$")->0->match("[^.]+$") AS INT)
+  THEN 
+FORMATWIKI(
+  "{cell:align=center|vertical-align=middle|width=250px}" 
+  + "OUTDATED"   
+  + "{cell}"
+)   
+END AS 'Action'
+ 
+FROM T1
+LEFT JOIN T2 ON  T2.'Product'->split(" ")->0 = T1.'Product'->split(" ")->0
+LEFT JOIN T3 ON  T3.'Microservice'->split(" ")->0 = T1.'Microservice'->split(" ")->0
+LEFT JOIN T4 ON  T4.'Microservice'->split(" ")->0 = T1.'Microservice'->split(" ")->0
