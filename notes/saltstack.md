@@ -1,8 +1,9 @@
-
+```
 sudo salt 'stream' state.apply run_application
 sudo salt-master &
 sudo salt-api &
 sudo salt-minion &
+```
 
 ```
 ubuntu@stream:~$ cat /srv/salt/run_application.sls 
