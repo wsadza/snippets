@@ -1,18 +1,4 @@
-```
-sudo salt 'stream' state.apply run_application
-sudo salt-master &
-sudo salt-api &
-sudo salt-minion &
-```
-
-```
-ubuntu@stream:~$ cat /srv/salt/run_application.sls 
-run_application:
-  cmd.run:
-    - name: heroic --no-sandbox
-    - runas: ubuntu
-```
-
+** Server
 
 ```
 ubuntu@stream:~$ cat /etc/salt/master
@@ -49,6 +35,23 @@ netapi_enable_clients:
   - runner_async
   - sproxy
   - sproxy_asyn
+```
+** App definition
+
+```
+ubuntu@stream:~$ cat /srv/salt/run_application.sls 
+run_application:
+  cmd.run:
+    - name: heroic --no-sandbox
+    - runas: ubuntu
+```
+** Execution
+
+```
+sudo salt-master &
+sudo salt-api &
+sudo salt-minion &
+sudo salt 'stream' state.apply run_application
 ```
 
 ```
