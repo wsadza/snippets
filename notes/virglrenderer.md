@@ -5,13 +5,18 @@
 Install the required dependencies:
 
 ```sh
-sudo apt-get install pkg-config libepoxy-dev libdrm-dev libvulkan-dev libgbm-dev libglvnd-dev libva-dev
+sudo apt-get install pkg-config libepoxy-dev libdrm-dev libvulkan-dev libgbm-dev libglvnd-dev libva-dev meson
 ```
 
 Clone the `virglrenderer` repository:
 
 ```sh
 git clone https://gitlab.freedesktop.org/virgl/virglrenderer.git
+cd virglrenderer
+meson out -Dvenus=true
+meson compile -C out
+./vtest/virgl_test_server --venus
+exit
 ```
 
 ## Running Tests
